@@ -1,8 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿
+<link rel="stylesheet" href="~/css/theme.css" />
+<div style="display:flex;">
+    <form method="post" style="margin:auto;">
+  <div class="form-group">
+    <label class="col-form-label mt-4" for="inputDefault" style="font-size: 64px">Enter your name</label>
+    <input type="text" class="form-control" name="user" style="width: 490px; font-size: 30px">
+  </div>
+  <button type="submit" class="btn btn-primary" style="margin-top: 30px; font-size: 35px; width: 200px; margin: 0 auto;
+  display: block; margin-top: 30px" asp-action="GetUser">Submit</button>
+</form>
 </div>
+
+
+

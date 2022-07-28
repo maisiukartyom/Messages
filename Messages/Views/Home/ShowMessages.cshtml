@@ -1,0 +1,87 @@
+﻿@{
+    var user = ViewData["User"] as string;
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script> 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="~/css/theme.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+@model List<Note>
+
+    <script>
+        function show(id){
+            var message = document.getElementById(id)
+            console.log(id)
+            console.log(message)
+            if (window.getComputedStyle(message).visibility === "hidden") {
+                message.style.setProperty('visibility', 'visible')
+            }
+            else{
+                message.style.setProperty('visibility', 'hidden')
+            }
+        }
+
+    </script>
+<div class=page>
+    <form method="post" style="font-size: 20px" id="add">
+  <div class="form-group">
+    <label class="col-form-label mt-4" for="inputDefault">Recipient</label>
+    <input type="text" class="form-control" name="message" id="recipient" style="width: 250px; font-size: 20px">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label mt-4" for="inputDefault">Title</label>
+    <input type="text" class="form-control" name="message" id="title" style="width: 250px; font-size: 20px">
+  </div>
+  <div class="form-group">
+      <label for="exampleTextarea" class="form-label mt-4">Body</label>
+      <textarea class="form-control" id="body" rows="6" name="message" style="overflow-y: scroll; width: 250px"></textarea>
+    </div>
+  <button type="submit" id="btadd" on_click="add()" class="btn btn-primary" style="margin-top: 30px" asp-action="AddMessage">Send message</button>
+</form>
+<div id="divPartial" class="containner custom-scrollbar" style="
+                margin:4px, 4px;
+                padding:4px;
+                width: 700px;
+                height: 650px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align:justify; margin-top:25px">
+    <partial name="_Messages" />
+</div>
+</div>
+
+
+<script>
+    $("#recipient").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSearchValue","Home")',
+                dataType: "json",
+                data: { search: $("#recipient").val() },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item, value: item };
+                    }));
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+        }
+    });
+
+    function loadPartialView() {
+      $('#divPartial').load('/Home/Update')
+    }
+
+   // re-call the function each 5 seconds
+   window.setInterval("loadPartialView()", 5000);
+
+    $('#btadd').on('submit',function (e) {
+        $('#divPartial').load('/Home/Update');
+          e.preventDefault();
+        });
+    
+</script>

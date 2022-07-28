@@ -1,0 +1,18 @@
+﻿@model List<Note>
+
+<link rel="stylesheet" href="~/css/note.css" />
+<link rel="stylesheet" href="~/css/theme.css" />
+@{
+    int i = 0;
+    foreach (var obj in Model)
+    {
+        i++;
+        <div class="card text-white bg-dark mb-3" style="width: 666px; height: 200px">
+        <div class="card-header">From @obj.Sender</div>
+        <div class="card-body">
+            <a class="xd" name="@i" onclick="show(this.name)"><h4 class="card-title" name="@i" onclick="show(this.name)">@obj.Title</h4></a>
+            <p class="div-show" id="@i">@obj.Body</p>
+        </div>
+        </div>
+    }
+}
